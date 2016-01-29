@@ -7,7 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-namespace html
+namespace textparser
 {
     interface IReader : IEnumerable
     {

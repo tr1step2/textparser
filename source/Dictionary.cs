@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace html
+namespace textparser
 {
     interface IDictionary
     {
