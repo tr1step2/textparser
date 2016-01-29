@@ -14,20 +14,26 @@ namespace textparser
             mSreader = new SentenceReader(parameters.TextFilePath);
             mMarker = new Marker(new Dictionary(parameters.DictFilePath));
             mFmaker = new FileMaker(parameters.OutputDir, parameters.N);
+
+            mTask = new Task(() =>
+            {
+                foreach (string sentence in mSreader)
+                    mFmaker.append(mMarker.mark(sentence));
+                mFmaker.close();
+            });
         }
 
         public void Process()
         {
-            foreach (string sentence in mSreader)
-                mFmaker.append(mMarker.mark(sentence));
-            mFmaker.close();
+            mTask.Start(TaskScheduler.Current);
         }
 
         public void Wait()
         {
-
+            mTask.Wait();   
         }
 
+        private Task mTask;
         private IReader mSreader;
         private IMarker mMarker;
         private IOutputMaker mFmaker;

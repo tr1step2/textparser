@@ -37,6 +37,7 @@ namespace textparser
 
         void IOutputMaker.close()
         {
+            endHtml();
             mCurrentStream.Close();
         }
 
@@ -44,7 +45,6 @@ namespace textparser
         {
             if (mCurrentStream != null)
             {
-                endHtml();
                 mCurrentStream.Close();
             }
 
