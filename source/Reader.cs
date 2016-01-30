@@ -7,7 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-namespace textparser
+namespace html
 {
     interface IReader : IEnumerable
     {
@@ -20,7 +20,7 @@ namespace textparser
             if (!File.Exists(textFilePath))
                 throw new FileNotFoundException("", textFilePath);
 
-            mStream = new StreamReader(textFilePath, Encoding.Unicode);
+            mStream = new StreamReader(textFilePath, Encoding.UTF8);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -36,9 +36,6 @@ namespace textparser
         public SentenceEnumerator(StreamReader stream)
         {
             mStream = stream;
-            loadData();
-
-            mCurrentIndex = -1;
         }
 
         #region IEnumerable implementation
@@ -63,37 +60,49 @@ namespace textparser
         private bool increasePointer()
         {
             mCurrentIndex += 1;
-            if (mCurrentIndex < mSentenceBuffer.Length)
-                return true;
+            if (mCurrentIndex >= mSentenceBuffer.Length)
+                return loadData();
 
-            return loadData();
+            return true;
         }
 
         private string getSentence()
         {
-            if (mSentenceBuffer.Length == 0)
-                return "";
+            if (!Regex.IsMatch(mSentenceBuffer[mCurrentIndex], @"[.!?]"))
+                loadData();
 
             return mSentenceBuffer[mCurrentIndex];
         }
-
+        
         private bool loadData()
         {
-            char[] separators = { '.', '!', '?' };
-
             if (mStream.EndOfStream)
+            {
+                mEofFlag = true;
                 return false;
+            }
 
-            string line = mStream.ReadLine();
+            string line = mSentenceBuffer[mCurrentIndex] + "\r\n" + mStream.ReadLine();
+
+            while(!mStream.EndOfStream &&
+                !Regex.IsMatch(line, @"[.?!]")) 
+            {
+                line += "\r\n";
+                line += mStream.ReadLine();
+            }
 
             mCurrentIndex = 0;
-            mSentenceBuffer = Regex.Split(line, @"(?<=[.!\?])", RegexOptions.Compiled);
+            string expr = @"(?<=[.!?])";
+
+            mSentenceBuffer = Regex.Split(line, expr, RegexOptions.Compiled);
             mSentenceBuffer = Array.FindAll(mSentenceBuffer, s => s != "");
+
             return true;
         }
 
         private StreamReader mStream;
-        private string[] mSentenceBuffer = {};
-        private int mCurrentIndex;
+        private string[] mSentenceBuffer = { "" };
+        private int mCurrentIndex = -1;
+        private bool mEofFlag = false;
     }
 }

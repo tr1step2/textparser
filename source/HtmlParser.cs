@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace textparser
+namespace html
 {
     class HtmlParser
     {
@@ -28,8 +28,8 @@ namespace textparser
 
         }
 
-        IReader mSreader;
-        IMarker mMarker;
-        IOutputMaker mFmaker;
+        private IReader mSreader;
+        private IMarker mMarker;
+        private IOutputMaker mFmaker;
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace textparser
+namespace html
 {
     class Parameters
     {
@@ -15,14 +15,17 @@ namespace textparser
             {
                 TextFilePath = Path.GetFullPath(args[0]);
                 DictFilePath = Path.GetFullPath(args[1]);
-                OutputDir = args.Length > 2 ? args[2] : ".";
-                N = args.Length > 3 ? Convert.ToInt32(args[3], 10) : 10;
+                OutputDir = args.Length > 2 ? Path.GetFullPath(args[2]) : mDefaultPath;
+                N = args.Length > 3 ? Convert.ToInt32(args[3], 10) : mMaxNum;
             }
             catch (Exception e)
             {
                 errorDelegate(e);
             }
         }
+
+        private string mDefaultPath = Path.GetFullPath(".");
+        private int mMaxNum = 30;
 
         #region GettersSetters
 

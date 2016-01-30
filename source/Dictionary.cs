@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace textparser
+namespace html
 {
     interface IDictionary
     {
@@ -20,9 +20,9 @@ namespace textparser
             if (!File.Exists(dictFilePath))
                 throw new FileNotFoundException("", dictFilePath);
 
-            StreamReader stream = new StreamReader(dictFilePath, Encoding.Unicode);
+            StreamReader stream = new StreamReader(dictFilePath, Encoding.UTF8);
             string allText = stream.ReadToEnd();
-            string[] words = allText.Split(new char[] { '\r', '\n' }, 
+            string[] words = allText.Split(new char[] { '\r', '\n' ,' ' }, 
                 StringSplitOptions.RemoveEmptyEntries);
 
             mSet = new HashSet<string>(words);
@@ -32,11 +32,11 @@ namespace textparser
 
         bool IDictionary.find(string word, bool caseSensitive)
         {
-            return mSet.Contains(word, caseSensitive ? 
+            return mSet.Contains(word);/*, caseSensitive ? 
                 StringComparer.CurrentCulture : 
-                StringComparer.CurrentCultureIgnoreCase);
+                StringComparer.CurrentCultureIgnoreCase);*/
         }
 
-        HashSet<string> mSet;
+        private HashSet<string> mSet;
     }
 }
