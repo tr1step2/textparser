@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using html;
+using textparser;
 
 namespace Program
 {
@@ -12,7 +12,7 @@ namespace Program
     {
         static void Main(string[] args)
         {
-            HtmlParser parser = new HtmlParser(new Parameters(args, 
+            TextParser parser = new TextParser(new Parameters(args, 
                 (Exception e) =>
                 {
                     Console.WriteLine("Parameters parse failed.");

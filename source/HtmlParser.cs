@@ -5,15 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace html
+namespace textparser
 {
-    class HtmlParser
+    class TextParser
     {
-        public HtmlParser(Parameters parameters)
+        public TextParser(Parameters parameters)
         {
-            IDictionary dict = new Dictionary(parameters.DictFilePath);
             mSreader = new SentenceReader(parameters.TextFilePath);
-            mMarker = new Marker(dict);
+            mMarker = new Marker(new Dictionary(parameters.DictFilePath));
             mFmaker = new FileMaker(parameters.OutputDir, parameters.N);
         }
 

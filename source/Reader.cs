@@ -7,7 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections;
 
-namespace html
+namespace textparser
 {
     interface IReader : IEnumerable
     {
@@ -77,12 +77,11 @@ namespace html
         private bool loadData()
         {
             if (mStream.EndOfStream)
-            {
-                mEofFlag = true;
                 return false;
-            }
 
-            string line = mSentenceBuffer[mCurrentIndex] + "\r\n" + mStream.ReadLine();
+            string line = "";
+            if (mCurrentIndex < mSentenceBuffer.Length)
+                line = mSentenceBuffer[mCurrentIndex] + mStream.ReadLine();
 
             while(!mStream.EndOfStream &&
                 !Regex.IsMatch(line, @"[.?!]")) 
@@ -103,6 +102,5 @@ namespace html
         private StreamReader mStream;
         private string[] mSentenceBuffer = { "" };
         private int mCurrentIndex = -1;
-        private bool mEofFlag = false;
     }
 }

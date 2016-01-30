@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Globalization;
 
-namespace html
+namespace textparser
 {
     interface IDictionary
     {
@@ -32,9 +32,9 @@ namespace html
 
         bool IDictionary.find(string word, bool caseSensitive)
         {
-            return mSet.Contains(word);/*, caseSensitive ? 
+            return mSet.Contains(word, caseSensitive ? 
                 StringComparer.CurrentCulture : 
-                StringComparer.CurrentCultureIgnoreCase);*/
+                StringComparer.CurrentCultureIgnoreCase);
         }
 
         private HashSet<string> mSet;

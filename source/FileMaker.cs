@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace html
+namespace textparser
 {
     interface IOutputMaker
     {
@@ -23,7 +23,6 @@ namespace html
                 throw new FileNotFoundException("", mOutputDir);
 
             initNewFile();
-            
         }
 
         void IOutputMaker.append(string str)
