@@ -10,6 +10,7 @@ namespace textparser
     interface IOutputMaker
     {
         void append(string str);
+        void close();
     }
 
     class FileMaker : IOutputMaker
@@ -34,15 +35,34 @@ namespace textparser
                 initNewFile();
         }
 
+        void IOutputMaker.close()
+        {
+            mCurrentStream.Close();
+        }
+
         private void initNewFile()
         {
             if (mCurrentStream != null)
+            {
+                endHtml();
                 mCurrentStream.Close();
+            }
 
             string path = Path.Combine(mOutputDir, mDefaultFilename + ++mCurrentFileNum + mDefaultExtension);
-            mCurrentStream = new StreamWriter(path, true, Encoding.UTF8);
+            mCurrentStream = new StreamWriter(path, false, Encoding.UTF8);
+            startHtml();
 
             mCurrentLinesInFile = 0;
+        }
+
+        private void startHtml()
+        {
+            mCurrentStream.WriteLine("<html><body>");
+        }
+
+        private void endHtml()
+        {
+            mCurrentStream.WriteLine("</body></html>");
         }
 
         #region consts

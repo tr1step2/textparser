@@ -81,13 +81,13 @@ namespace textparser
 
             string line = "";
             if (mCurrentIndex < mSentenceBuffer.Length)
-                line = mSentenceBuffer[mCurrentIndex] + mStream.ReadLine();
+                line = mSentenceBuffer[mCurrentIndex] + mStream.ReadLine() + "\r\n";
 
             while(!mStream.EndOfStream &&
                 !Regex.IsMatch(line, @"[.?!]")) 
             {
-                line += "\r\n";
                 line += mStream.ReadLine();
+                line += "\r\n";
             }
 
             mCurrentIndex = 0;

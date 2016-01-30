@@ -29,7 +29,11 @@ namespace textparser
             foreach(var s in seq)
             {
                 if(s.Contains("\r\n"))
-                    sb.Append(s.Replace("\r\n", "<br>\r\n</br>"));
+                {
+                    sb.Append(s.Replace("\r\n", "<br>\r\n"));
+                    continue;
+                }
+                    
                 sb.Append(mDict.find(s, false) ? "<b><i>" + s + "</b></i>" : s);
             }
             

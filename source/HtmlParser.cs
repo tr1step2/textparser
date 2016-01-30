@@ -20,6 +20,7 @@ namespace textparser
         {
             foreach (string sentence in mSreader)
                 mFmaker.append(mMarker.mark(sentence));
+            mFmaker.close();
         }
 
         public void Wait()
