@@ -28,9 +28,9 @@ namespace textparser
             StringBuilder sb = new StringBuilder();
             foreach(var s in seq)
             {
-                if(s.Contains("\r\n"))
+                if(s.Contains("\n"))
                 {
-                    sb.Append(s.Replace("\r\n", "<br>\r\n"));
+                    sb.Append(s.Replace("\n", "<br>\n"));
                     continue;
                 }
                     
